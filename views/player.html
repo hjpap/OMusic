@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+        <script type="text/javascript" src="../javascripts/jquery-1.10.2.min.js"></script>
+		<style>
+            body{
+                margin:0;
+                padding:0;
+            }
+            @font-face {
+                font-family: 'entypo';
+                src:url('/stylesheets/fonts/entypo.eot');
+                src:url('/stylesheets/fonts/entypo.eot?#iefix') format('embedded-opentype'),
+                url('/stylesheets/fonts/entypo.svg#entypo') format('svg'),
+                url('/stylesheets/fonts/entypo.woff') format('woff'),
+                url('/stylesheets/fonts/entypo.ttf') format('truetype');
+                font-weight: normal;
+                font-style: normal;
+            }
+            .player-panel{
+                background:-webkit-gradient(linear,left top,left bottom,color-stop(0,#4A4A4A), color-stop(1, #444444));
+                background: -moz-linear-gradient(top,#4A4A4A,#444444);
+                background: -o-linear-gradient(top,#4A4A4A,#444444);
+                height: 55px;
+                width: 100%;
+                overflow-y: hidden;
+            }
+            .left-panel {
+               // width: 180px;
+                height: 100%;
+                float: left;
+            }
+			.play-btn{
+                height: 45px;
+                margin-top: 8px;
+                list-style: none;
+                padding: 0 10px;
+            }
+            .play-btn li {
+                list-style: none;
+                padding: 0;
+                float: left;
+            }
+            .play-btn-icon:hover{
+                color:rgba(255,255,255,.8);
+            }
+            .play-btn-icon{
+                margin-left:9px;
+                position: relative;
+                display: inline-block;
+                color: #fff;
+                width: 40px;
+                height: 40px;
+                line-height: 40px;
+                text-align: center;
+                border-radius: 3px;
+            }
+            .play-btn-icon:active{
+                margin-top:1px;
+            }
+            .play-btn-icon:before {
+                font-family: 'entypo';
+                font-style: normal;
+                speak: none;
+                font-weight: normal;
+                -webkit-font-smoothing: antialiased;
+                font-size: 35px;
+                width:100%;
+                height:100%;
+                text-shadow: 1px 1px 2px #000;
+            }
+            .icon-play{
+                width: 50px;
+                height: 50px;
+                line-height: 50px;
+                position: relative;
+                top:-5px;
+            }
+            .icon-play:before {
+                content: "\e010";
+                font-size: 50px;
+            }
+            .icon-last:before {
+                content: "\e039";
+            }
+            .icon-first:before {
+                content: "\e03a";
+            }
+            .icon-pause{
+                width: 50px;
+                height: 50px;
+                line-height: 50px;
+                position: relative;
+                top:-5px;
+            }
+            .icon-pause:before {
+                content: "\e017";
+                font-size: 50px;
+            }
+		</style>
+	</head>
+	
+	<body>
+    <audio id="audioControl" controls>
+        <source  title="xxx" src="/mp3/melody.mp3" />
+        <source  title="xxx" src="/mp3/BEYOND - 喜欢你.mp3" />
+    </audio>
+<!--
+    audio duration --- 媒体时间
+          currentTime --当前播放到的时间
+          play()   pause()事件。
+          可以绑定ended事件  结束时会触发
+          loop
+          autoplay
+          currentSrc
+
+-->
+
+        <div id="myAudio">
+
+            <div class="player-panel">
+                <div class="left-panel">
+                    <ul class="play-btn">
+                        <li title="prev" class="play-btn-icon icon-first">
+                        </li>
+                        <li title="paly" class="play-btn-icon icon-pause">
+                        </li>
+                        <li title="next" class="play-btn-icon icon-last">
+                        </li>
+                    </ul>
+                </div>
+                <div class="right-panel"></div>
+            </div>
+
+        </div>
+	</body>
+
+</html>

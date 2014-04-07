@@ -1,0 +1,49 @@
+<%
+    if(article){
+            %>
+<div class="article">
+    <div class="a-content">
+        <div class="title">
+            <div class="info">
+                <div class="date">
+                    <div><%=article.format_create_date%></div>
+                </div>
+                <div class="icon comment"><a href="#"><%=article.comment%></a></div>
+                <div class="icon view"><a href="#"><%=article.view%></a></div>
+                <div class="icon like"><a href="#"><%=article.like%></a></div>
+            </div>
+            <div class="blogtitle"><%=article.title%></div>
+        </div>
+        <div class="section">
+            <div class="text">
+                <%-article.content%>
+            </div>
+
+            <div class="tagbar">
+                <% if(article.type && article.type.length>0){
+                    for(var j=0;j<article.type.length;j++){
+                        var type=article.type[j];
+                        console.log(type);
+                %>
+                <a href="#" class="tag"><%=type %></a>
+                <%
+                    }
+                }%>
+
+            </div>
+        </div>
+
+    </div>
+    <% include comment.html %>
+</div>
+            <%
+    }else{
+%>
+<div>还没有内容哦！</div>
+<%
+    }
+%>
+
+
+
+

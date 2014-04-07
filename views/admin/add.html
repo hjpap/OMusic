@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>Me. Editor</title>
+		<meta name="description" content="One Pause Poetry">
+		<meta name="viewport" content="width=device-width,initial-scale=1">
+		<link rel="stylesheet" href="../stylesheets/admin.css">
+		
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script type="text/javascript" src="../javascripts/jquery-1.10.2.min.js"></script>
+		<script type="text/javascript" src="../ueditor/ueditor.config.js"></script>
+		<script type="text/javascript" src="../ueditor/editor_api.js"></script>
+
+
+		<style>
+			
+		</style>
+	</head>
+	
+	<body>
+		<div class="ad-header" onclick="addType()">
+			
+		</div>
+		
+		<div class="ad-container">
+
+            <div class="ad-editor">
+                <h2>编辑文章</h2>
+                <form action="/articleForm" method="POST">
+                    <div class="content">
+                            title:<input type="text" name="title"/>
+                        <textarea class="myeditor" name="mytext" id="myEditor"></textarea>
+                    </div>
+
+                    <div class="right-box">
+                        <div class="rbox">
+                            <div class="b-title">发布</div>
+                            <div class="b-content">
+                                <div >
+
+                                </div>
+                                <input type="submit" value="提交"/>
+                            </div>
+                        </div>
+
+                        <div class="rbox">
+                            <div class="b-title">分类</div>
+                            <div id="type-box" class="b-content">
+
+                            </div>
+                            <div>
+                                <div class="addtypebtn" id="showBtn">添加新类别</div>
+                                <div id="addType" class="addtype" style="display:none">
+                                    <input type="text" name="newType" id="newType"/>
+                                    <input type="button" id="addTypeBtn" value="添加"/>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+		</div>
+
+		<script type="text/javascript">
+			var editor = new UE.ui.Editor();
+			editor.render("myEditor");
+			//1.2.4以后可以使用一下代码实例化编辑器
+			//UE.getEditor('myEditor')
+		</script>
+
+        <script>
+
+            $(document).ready(function(){
+                getType();
+                $('#showBtn').click(function(e){
+                    e.defaultValue=false;
+                    $('#addType').toggle();
+                });
+                $('#addTypeBtn').click(function(){
+                    var newtype = $('#newType').val();
+                    newtype=newtype.trim();
+                    if(!newtype){
+                        alert("不能为空");
+                    }else{
+                        addType(newtype);
+                    }
+
+                });
+
+
+            });
+            function getType(){
+                $.ajax({
+                    url:"/ajaxGetType",
+                    type:"GET",
+                    error:function(err){
+                        var htmlStr="<div>无法获取数据</div>";
+                        $("#type-box").append(htmlStr);
+                    },
+                    success:function(data){
+                       // alert(JSON.stringify(data));
+                        var types = data.data;
+                        if(types && types.length>0){
+                            for(var i= 0,len = types.length;i<len;i++){
+                                var htmlStr="<div class='types-box'><input id='type' name='type' type='checkbox' value='"+types[i]['_id']+"'/><label for='type'>"+types[i]['name']+"</label></div>";
+                                $("#type-box").append(htmlStr);
+                            }
+                        }else{
+                            var htmlStr="<div>还没有数据</div>";
+                            $("#type-box").append(htmlStr);
+                        }
+
+                    }
+                });
+            }
+
+
+            function addType(val){
+                $.ajax({
+                    url:"/ajaxAddType",
+                    type:"GET",
+                    data:{typeName:val},
+                    error:function(err){
+                        alert(err);
+                    },
+                    success:function(data){
+                        //alert(JSON.stringify(data));
+                        if(data.status==="success" && data.data){
+                            var htmlStr="<div class='types-box'><input id='type' name='type' type='checkbox' value='"+data.data['_id']+"'/><label for='type'>"+data.data['name']+"</label></div>";
+                            $("#type-box").append(htmlStr);
+                        }
+                        if(data.status==="have"){
+                            alert("已存在该类别");
+                        }
+                    }
+                });
+            }
+        </script>
+		
+	</body>
+
+</html>
