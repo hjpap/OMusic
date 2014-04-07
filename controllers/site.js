@@ -6,13 +6,17 @@ var Article = require('../dao/articleDao');
 var EventProxy = require('eventproxy');
 
 exports.index=function(req,res){
-   /* res.render('bgimgbox',
-        {       }
-    );
-    */
+
     res.render('player',
         {       }
     );
+
+};
+exports.box=function(req,res){
+     res.render('bgimgbox',
+     {       }
+     );
+
 
 };
 

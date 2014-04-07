@@ -112,8 +112,6 @@
                             self.rootDom = doms.rootDom;
                             self.ol = doms.ol;
                             self.dot = doms.dot;
-                            if(self.config.bgLabel)
-                                self.dot.innerHTML = "<span class='bg-label'>"+self.config.bgLabel+"</span>"
                             self.forceLayout();
                             self.initImgList();
                         }
@@ -224,8 +222,8 @@
                 {img:"../images/bgshow/da.jpg"}]
             var imgs3 = []
             var bgImgBox = new BgImgBox(host,{
-                imgs:null,
-                config:{bgLabel:"OMusic."}
+                imgs:imgs,
+                config:{}
             });
             bgImgBox.play();
         </script> 
