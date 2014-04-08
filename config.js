@@ -6,8 +6,6 @@ exports.config = {
     session_secret:"ricw",
     session_maxAge:30000,
 
-    db: 'mongodb://localhost/MongoDB',
-
-    articlePageSize:3
+    db: 'mongodb://localhost/MongoDB'
 
 }
