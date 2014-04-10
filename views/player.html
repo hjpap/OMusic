@@ -30,6 +30,17 @@
                 padding-left: 200px;
                 padding-right: 250px;
                 box-sizing: border-box;
+
+                font-family: "Helvetica Neue","Hiragino Sans GB","Microsoft Yahei",Helvetica,Arial,sans-serif;
+                font-size: 12px;
+                font-smoothing: antialiased;
+                -webkit-font-smoothing: antialiased;
+                -moz-font-smoothing: antialiased;
+                -ms-font-smoothing: antialiased;
+                -webkit-text-size-adjust: none;
+                -ms-text-size-adjust: none;
+                text-size-adjust: none;
+                -webkit-backface-visibility: hidden;
             }
             .left-panel {
                 width: 204px;
@@ -99,6 +110,44 @@
             .icon-first:before {
                 content: "\e03a";
             }
+            .volume-on{
+                position: relative;
+                width: 18px;
+                height: 18px;
+                cursor:pointer;
+            }
+            .volume-on:before{
+                font-family: 'entypo';
+                font-style: normal;
+                speak: none;
+                font-weight: normal;
+                -webkit-font-smoothing: antialiased;
+                font-size:18px;
+                width: 18px;
+                height: 18px;
+                color:#fff;
+                text-shadow: 1px 1px 2px #000;
+                content: "\43";
+            }
+            .volume-mute{
+                position: relative;
+                cursor:pointer;
+                width: 18px;
+                height: 18px;
+            }
+            .volume-mute:before{
+                font-family: 'entypo';
+                font-style: normal;
+                speak: none;
+                font-weight: normal;
+                -webkit-font-smoothing: antialiased;
+                font-size:18px;
+                width: 18px;
+                height: 18px;
+                color:#fff;
+                text-shadow: 1px 1px 2px #000;
+                content: "\42";
+            }
             .icon-pause{
                 width: 50px;
                 height: 50px;
@@ -113,6 +162,7 @@
             .duration-info{
                 position: absolute;
                 top: 38px;
+                left:50px;
                 font-size: 10px;
                 width: 100%;
                 height: 20px;
@@ -178,8 +228,7 @@
             }
 
             .right-panel{
-                background:red;
-                width: 200px;
+                width: 175px;
                 height: 100%;
                 position: absolute;
                 right: 0;
@@ -193,6 +242,36 @@
                 -moz-user-select: text;
                 -webkit-user-select: text;
                 -ms-user-select: text;
+            }
+            .music-box{
+                position:absolute;
+                top:0;
+                left:50px;
+                color:#fff;
+            }
+            .music-show{
+                position: absolute;
+                top:3px;
+                left:-60px;
+                width:50px;
+                height:50px;
+                background: blue;
+                border-radius: 4px;
+            }
+            .track-info{
+                position:relative;
+                top:10px;
+            }
+            .volume-box{
+                position: absolute;
+                top:28px;
+                left:15px;
+            }
+            .volume-host{
+                position: absolute;
+                top:10px;
+                left:25px;
+                width:100px;
             }
 		</style>
 	</head>
@@ -217,7 +296,14 @@
 
             <div class="player-panel">
                 <div class="main-panel">
-                    <div class="music-box"></div>
+                    <div class="music-box">
+                        <div class="music-show"></div>
+                        <div class="track-info">
+                            <a>Locked Out Of Heave</a>
+                            -
+                            <a>Bruno Matin</a>
+                        </div>
+                    </div>
                     <div class="duration-info">
                         <div class="postime">4:00</div>
                         <div class="progress-host">
@@ -233,21 +319,26 @@
 
                 <div class="left-panel">
                     <ul class="play-btn">
-                        <li title="prev" class="play-btn-icon icon-first">
-                        </li>
-                        <li title="paly" class="play-btn-icon icon-pause">
-                        </li>
-                        <li title="next" class="play-btn-icon icon-last">
-                        </li>
+                        <li title="prev" class="play-btn-icon icon-first"></li>
+                        <li title="paly" class="play-btn-icon icon-pause"></li>
+                        <li title="next" class="play-btn-icon icon-last"></li>
                     </ul>
                 </div>
 
                 <div class="right-panel">
-
+                    <div class="volume-box">
+                        <div class="volume-mute"></div>
+                        <div class="volume-host">
+                            <div class="progress-box">
+                                <div class="progress-bar"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
         </div>
+
 	</body>
 
 </html>
