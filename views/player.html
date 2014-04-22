@@ -705,6 +705,7 @@
             }
 
             MusicBox.prototype = {
+                /*单曲循环*/
                 loop:function(val){
                     var self = this;
                     if(val){
@@ -712,6 +713,9 @@
                     }else{
                         return self._audioControl.loop;
                     }
+                },
+                allLoop:function(){
+
                 },
                 autoplay:function(val){
                     var self = this;
