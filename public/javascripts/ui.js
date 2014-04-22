@@ -32,6 +32,7 @@ var musicOp = {
  var mb = new  MusicBox($('#host'),musicOp);
 */
 (function(w){
+
     var templateStr = '<div id="myAudio">\
                                     <audio id="audioControl">\
                                     </audio>\
@@ -192,6 +193,55 @@ var musicOp = {
                     }
 
                 });
+                /* 拖拽本地歌曲 播放*/
+                function handleFiles(files) {
+                    var sources = "";
+                    var len = files.length;
+                    var url;
+                    for (var i = 0; i < len; i++) {
+                        url = createObjectURL(files[i]);
+                        self.addSong({label:files[i].name,singer:"本地",src:url});
+                        self.currentIndex = (self.songsIndex.length-1);
+                        self.currentObj =  self.songs[self.songsIndex[self.currentIndex]];
+                        self._audioControl.src = self.currentObj.src;
+                        self.play();
+                    }
+                }
+
+                function createObjectURL(file) {
+                    if (window.URL) {
+                        return window.URL.createObjectURL(file);
+                    } else if (window.webkitURL) {
+                        return window.webkit.createObjectURL(file);
+                    } else {
+                        return null;
+                    }
+                }
+                function revokeObjectURL(url) {
+                    if (window.URL) {
+                        window.URL.revokeObjectURL(url);
+                    } else if (window.webkitURL) {
+                        window.webkitURL.revokeObjectURL(url);
+                    }
+                }
+                self._rootDom.bind("dragenter",dragenter = function(e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                });
+                self._rootDom.bind("dragover",dragover = function(e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                });
+                self._rootDom.bind("drop",drop = function(e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+
+                    var dt = e.originalEvent.dataTransfer;
+                    var files = dt.files;
+
+                    handleFiles(files);
+                });
+
                 /*控制按键*/
                 //播放键
                 self._playBtnDom.click(function(){
