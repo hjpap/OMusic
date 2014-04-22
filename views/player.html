@@ -32,6 +32,8 @@
                 padding-right: 250px;
                 box-sizing: border-box;
                 -moz-box-sizing: border-box;
+                -ms-box-sizing: border-box;
+                -o-box-sizing: border-box;
 
                 font-family: "Helvetica Neue","Hiragino Sans GB","Microsoft Yahei",Helvetica,Arial,sans-serif;
                 font-size: 12px;
@@ -452,7 +454,7 @@
             config:{
 
             },
-           /* songs:[
+            songs:[
                 {
                     
                     label:"melody",
@@ -467,7 +469,7 @@
                     src:"/mp3/BEYOND - 喜欢你.mp3",
                     coverImg:""
                 }
-            ]*/
+            ]
         };
         (function(w){
             var templateStr = '<div id="myAudio">\
@@ -496,9 +498,9 @@
                                         </div>\
                                         <div class="left-panel">\
                                             <ul class="play-btn">\
-                                                <li id="preBtn" title="上一首" class="play-btn-icon icon-first"></li>\
-                                                <li id="playBtn" title="播放/暂停" class="play-btn-icon icon-play"></li>\
-                                                <li id="nextBtn" title="下一首" class="play-btn-icon icon-last"></li>\
+                                                <li id="preBtn" title="上一首[←]" class="play-btn-icon icon-first"></li>\
+                                                <li id="playBtn" title="播放/暂停[空格键]" class="play-btn-icon icon-play"></li>\
+                                                <li id="nextBtn" title="下一首[→]" class="play-btn-icon icon-last"></li>\
                                             </ul>\
                                         </div>\
                                         <div class="right-panel">\
@@ -525,7 +527,7 @@
                 self.option = option;
                 //Parameter
                 self.songs = {};
-                self._order = false;
+                self._order = true;
                 self._autoplay = true;
                 self.songsIndex = [];
                 self.currentIndex = 0;//顺序播放时当前播放到的歌曲在列表中的序号
@@ -617,16 +619,11 @@
                         });
                         $AudioControl.bind("ended",function(){
                             self.pause();
-                            if(self.endFunc)
+                            if(self.endFunc){
                                 self.endFunc();
-                            if(self._autoplay){
+                            }else if(self._autoplay){
                                 if(self._order){
-                                    self.currentIndex++;
-                                    if(self.currentIndex>=self.songsIndex.length){
-                                        self.currentIndex=0;
-                                    }
-                                    self.currentObj = self.songs[self.songsIndex[self.currentIndex]];
-                                    self._audioControl.src = self.currentObj.src;
+                                    self.next();
                                 }else{
                                     self.currentIndex = parseInt(Math.random()*self.songsIndex.length);
                                     self.currentObj = self.songs[self.songsIndex[self.currentIndex]];
@@ -642,6 +639,31 @@
                                 self.play();
                             }else{
                                 self.pause();
+                            }
+                        });
+                        //下一曲
+                        self._nextBtnDom.click(function(){
+                            self.next();
+                        });
+                        //上一曲
+                        self._preBtnDom.click(function(){
+                            self.pre();
+                        });
+                        $(document).keydown(function(ev){
+                            switch(ev.keyCode){
+                                case 32:
+                                    if(self._audioControl.paused){
+                                        self.play();
+                                    }else{
+                                        self.pause();
+                                    }
+                                    break;
+                                case 37:
+                                    self.pre();
+                                    break;
+                                case 39:
+                                    self.next();
+                                    break;
                             }
                         });
 
@@ -708,18 +730,23 @@
                 /*单曲循环*/
                 loop:function(val){
                     var self = this;
-                    if(val){
+                    if(val!=null){
                         self._audioControl.loop = val;
                     }else{
                         return self._audioControl.loop;
                     }
                 },
-                allLoop:function(){
-
+                order:function(val){
+                    var self = this;
+                    if(val!=null){
+                        self._order = val
+                    }else{
+                        return self._order;
+                    }
                 },
                 autoplay:function(val){
                     var self = this;
-                    if(val == true){
+                    if(val!=null){
                         self._autoplay = val;
                     }else{
                         self._autoplay;
@@ -773,10 +800,24 @@
                     self._audioControl.currentTime = toTime;
                 },
                 next:function(){
-
+                    var self = this;
+                    var songCont = self.songsIndex.length;
+                    if(songCont<=0)return;
+                    self.currentIndex++;
+                    self.currentIndex = self.currentIndex<songCont?self.currentIndex:0;
+                    self.currentObj = self.songs[self.songsIndex[self.currentIndex]];
+                    self._audioControl.src = self.currentObj.src;
+                    self.play();
                 },
                 pre:function(){
-
+                    var self = this;
+                    var songCont = self.songsIndex.length;
+                    if(songCont<=0)return;
+                    self.currentIndex--;
+                    self.currentIndex = self.currentIndex>=0?self.currentIndex:songCont-1;
+                    self.currentObj = self.songs[self.songsIndex[self.currentIndex]];
+                    self._audioControl.src = self.currentObj.src;
+                    self.play();
                 },
                 initSongs:function(val){
                     var self = this;

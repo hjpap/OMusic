@@ -6,6 +6,6 @@ exports.config = {
     session_secret:"ricw",
     session_maxAge:30000,
 
-    db: 'mongodb://localhost/MongoDB'
+    db: 'mongodb://localhost/OMusic'
 
 }

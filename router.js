@@ -12,5 +12,6 @@ var auth = function (req, res, next) {
 
 module.exports=function(app){
     app.get('/', site.index);
-    app.get('/box', site.box);
+    app.get('/testplayer', site.testPlyer);
+    app.get('/testimgbox', site.testImgBox);
 }

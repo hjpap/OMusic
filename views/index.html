@@ -3,10 +3,13 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>Me.</title>
-		<meta name="description" content="One Pause Poetry">
+		<title>OMusic</title>
+		<meta name="description" content="OMusic">
 		<meta name="viewport" content="width=device-width,initial-scale=1">
 		<link rel="stylesheet" href="stylesheets/style.css">
+		<link rel="stylesheet" href="stylesheets/ui.css">
+		<script type="text/javascript" src="/javascripts/jquery-1.10.2.min.js"></script>
+		<script type="text/javascript" src="/javascripts/ui.js"></script>
 		<style>
 			
 		</style>
@@ -14,39 +17,67 @@
 	
 	<body>
 		<div class="site-container">
-			<% include common/header.html %>
-			
-			<div class="main">
-				<div class="maintop">
-				s
-				</div>
+			<div id="mainpage" class="page-container"> 
+				<div id="imgBoxHost"></div>
 				
-				<div class="content">
-					
-					<% include common/articles.html %>
-                    <div class="badoo">
-                        <span class="disabled"> <  Prev</span>
-                        <span class="current">1</span>
-                        <a href="?p=2">2</a>
-                        <a href="?p=3">3</a>
-                        <a href="?p=4">4</a>
-                        <a href="?p=5">5</a>
-                        <a href="?p=6">6</a>
-                        <a href="?p=7">7</a>
-                        ...
-                        <a href="?p=199">199</a>
-                        <a href="?p=200">200</a>
-                        <a href="?p=2">Next  > </a>
-                    </div>
-				</div>
-				
-				<% include common/sidebar.html %>
-
 			</div>
-			
-			<% include common/footer.html %>
+			<div id="playerBoxHost"></div>
 		</div>
-        <% include common/footer.html %>
 	</body>
+	<script>
+		var Contr = {
+			imgBox:null,
+			playerBox:null,
+		}
 
+		var MainPageFun = {
+			init:function(){
+				//init playerBox
+				var musicOp = {
+		            config:{},
+		            songs:[ {
+                    
+                    label:"melody",
+                    singer:"陶喆",
+                    src:"/mp3/melody.mp3",
+                    coverImg:""
+                },
+                {
+                    id:"112",
+                    label:"喜欢你",
+                    singer:"beyong",
+                    src:"/mp3/BEYOND - 喜欢你.mp3",
+                    coverImg:""
+                }]
+		        };
+				Contr.playerBox = new  UI.MusicBox($("#playerBoxHost"),musicOp);
+
+				//init imgBox
+				var imgs = [
+	                {img:"../images/bgshow/da.jpg"},
+	                {img:"../images/bgshow/da2.jpg"},
+	                {img:"../images/bgshow/da3.jpg"}]
+	            var imgs2 = [
+	                {img:"../images/bgshow/da.jpg"}]
+	            var imgs3 = []
+
+				Contr.imgBox = new UI.BgImgBox(document.getElementById("imgBoxHost"),{
+	                imgs:[],
+	                config:{}
+	            });
+	            
+	            Contr.imgBox.setImg(imgs,function(){
+	            	Contr.imgBox.play();
+	            });
+			}
+		}
+
+		var Request = {
+
+		}
+		$(document).ready(function(){
+			MainPageFun.init();
+		})
+
+	</script>
 </html>

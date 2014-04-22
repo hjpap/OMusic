@@ -18,9 +18,7 @@ mongoose.connect(config.db,function(err){
 });
 
 require('./user');
-require('./article');
-require('./type');
+require('./songs');
 
 exports.User = mongoose.model('User');
-exports.Article = mongoose.model('Article');
-exports.Type = mongoose.model('Type');
+exports.Songs = mongoose.model('Songs');

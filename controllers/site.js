@@ -1,23 +1,23 @@
 /**
  * Created by wei.wang on 11/4/13.
  */
-//相应的controller
-var Article = require('../dao/articleDao');
 var EventProxy = require('eventproxy');
 
-exports.index=function(req,res){
+exports.testPlyer =function(req,res){
 
-    res.render('player',
+    res.render('control/player',
         {       }
     );
-
 };
-exports.box=function(req,res){
-     res.render('bgimgbox',
+exports.testImgBox=function(req,res){
+     res.render('control/bgimgbox',
      {       }
      );
-
-
 };
 
+exports.index=function(req,res){
+    res.render('index',
+        {       }
+    );
+};
 
