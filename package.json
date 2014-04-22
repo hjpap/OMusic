@@ -1,5 +1,5 @@
 {
-  "name": "MyWeb",
+  "name": "OMusic",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -9,6 +9,7 @@
     "express": "3.4.4",
     "ejs": "*",
     "mongoose":"3.8.0",
-    "eventproxy":"*"
+    "eventproxy":"*",
+    "session-mongoose":"0.4.0"
   }
 }

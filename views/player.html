@@ -452,7 +452,7 @@
             config:{
 
             },
-            songs:[
+           /* songs:[
                 {
                     
                     label:"melody",
@@ -467,7 +467,7 @@
                     src:"/mp3/BEYOND - 喜欢你.mp3",
                     coverImg:""
                 }
-            ]
+            ]*/
         };
         (function(w){
             var templateStr = '<div id="myAudio">\
@@ -674,7 +674,7 @@
                         //进度控制
                         self._progressBarDom.mousedown(pstarDrag = function(ev) {
                             ev.preventDefault();
-                            var width = self._progressBoxDom .width();
+                            var width = self._progressBoxDom.width();
                             var origWidth = self._progressBarDom.width();      /*滑块初始位置*/
                             var origX = ev.clientX;                     /*鼠标初始位置*/
                             var target = this;
@@ -781,7 +781,7 @@
                     self.currentObj = null;
                     self.songsIndex = [];
                     $('#audioControl').html("");
-                    if(val.constructor == Array){
+                    if(val && val.constructor == Array){
                         for(var i = 0;i<val.length;i++){
                             var song = val[i];
                            self.addSong(song);
