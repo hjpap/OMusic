@@ -1,7 +1,5 @@
 //所有路由映射配置
-var site=require('./controllers/site');
-var article = require('./controllers/article');
-var type = require('./controllers/type');
+var site = require('./controllers/site');
 
 var auth = function (req, res, next) {
     if (!req.session || !req.session.user) {

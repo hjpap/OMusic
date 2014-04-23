@@ -21,7 +21,3 @@ exports.newUser = function(name , loginname , pass , email , limit , callback){
 exports.getUsersByQuery = function (query, callback) {
     User.find(query, callback);
 };
-
-exports.dd = function(){
-    return "dd";
-}

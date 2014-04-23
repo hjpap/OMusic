@@ -95,6 +95,7 @@ var musicOp = {
         self.currentObj = null;//当前播放的歌曲信息
         self.endFunc = null;//歌曲结束后触发的事件
         self.loadedmetadataFunc = null;//加载一首歌曲后触发事件
+        self.loadLocalSongFunc = null;//拖拽本地歌曲后触发事件
         //Dom
         self._hostDom = host;
         self._rootDom = $(templateStr);
@@ -200,10 +201,14 @@ var musicOp = {
                     var url;
                     for (var i = 0; i < len; i++) {
                         url = createObjectURL(files[i]);
-                        self.addSong({label:files[i].name,singer:"本地",src:url});
+                        var newSong = {label:files[i].name,singer:"本地",src:url};
+                        newSong = self.addSong(newSong);
                         self.currentIndex = (self.songsIndex.length-1);
                         self.currentObj =  self.songs[self.songsIndex[self.currentIndex]];
                         self._audioControl.src = self.currentObj.src;
+                        if(self.loadLocalSongFunc){
+                            self.loadLocalSongFunc(newSong);
+                        }
                         self.play();
                     }
                 }
@@ -369,6 +374,35 @@ var musicOp = {
             self._playBtnDom.addClass("icon-pause");
             self._playBtnDom.removeClass("icon-play");
         },
+        playById:function(val){
+            var self = this;
+            var song = self.songs[val];
+            if(song){
+                self.currentObj = song;
+                self._audioControl.src = self.currentObj.src;
+                self.play();
+            }
+        },
+        next:function(){
+            var self = this;
+            var songCont = self.songsIndex.length;
+            if(songCont<=0)return;
+            self.currentIndex++;
+            self.currentIndex = self.currentIndex<songCont?self.currentIndex:0;
+            self.currentObj = self.songs[self.songsIndex[self.currentIndex]];
+            self._audioControl.src = self.currentObj.src;
+            self.play();
+        },
+        pre:function(){
+            var self = this;
+            var songCont = self.songsIndex.length;
+            if(songCont<=0)return;
+            self.currentIndex--;
+            self.currentIndex = self.currentIndex>=0?self.currentIndex:songCont-1;
+            self.currentObj = self.songs[self.songsIndex[self.currentIndex]];
+            self._audioControl.src = self.currentObj.src;
+            self.play();
+        },
         pause:function(){
             var self = this;
             self._audioControl.pause();
@@ -409,26 +443,6 @@ var musicOp = {
             self._currentTimeDom.text(currentTime);
             self._audioControl.currentTime = toTime;
         },
-        next:function(){
-            var self = this;
-            var songCont = self.songsIndex.length;
-            if(songCont<=0)return;
-            self.currentIndex++;
-            self.currentIndex = self.currentIndex<songCont?self.currentIndex:0;
-            self.currentObj = self.songs[self.songsIndex[self.currentIndex]];
-            self._audioControl.src = self.currentObj.src;
-            self.play();
-        },
-        pre:function(){
-            var self = this;
-            var songCont = self.songsIndex.length;
-            if(songCont<=0)return;
-            self.currentIndex--;
-            self.currentIndex = self.currentIndex>=0?self.currentIndex:songCont-1;
-            self.currentObj = self.songs[self.songsIndex[self.currentIndex]];
-            self._audioControl.src = self.currentObj.src;
-            self.play();
-        },
         initSongs:function(val){
             var self = this;
             self.songs = {};
@@ -452,6 +466,7 @@ var musicOp = {
             self.songs[songid] = val;
             self.songsIndex.push(songid);
             $('#audioControl').append('<source songid="'+val.id+'" title="'+val.label+'" singer="'+val.singer+'" src="'+val.src+'" />');
+            return val;
         }
     }
     w.MusicBox = MusicBox;
