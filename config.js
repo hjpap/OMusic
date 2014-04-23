@@ -3,8 +3,8 @@
  */
 exports.config = {
     siteInfo:{
-        siteURL:"http://10.20.3.51:3001",
-        siteStaticURL:"http://10.20.3.51:3001",
+        siteURL:"http://localhost:3001",
+        siteStaticURL:"http://localhost:3001",
         title:"OMusic.",
         description:"Wei's Blog",
         keywords:"music"

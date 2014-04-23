@@ -200,6 +200,12 @@ var musicOp = {
                     var len = files.length;
                     var url;
                     for (var i = 0; i < len; i++) {
+                        if(files[i].type != "audio/mp3"){
+                            if(self.loadLocalSongFunc){
+                                self.loadLocalSongFunc("err");
+                            }
+                            return;
+                        }
                         url = createObjectURL(files[i]);
                         var newSong = {label:files[i].name,singer:"本地",src:url};
                         newSong = self.addSong(newSong);

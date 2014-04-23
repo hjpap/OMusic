@@ -5,13 +5,12 @@ var config = require('../config').config;
 var models = require('../model');
 var Songs = models.Songs;
 
-exports.newArticle = function( title, type, content, author, callback){
+exports.newSong = function( label, src, singer, callback){
 
     var song = new Songs();
-    song.title = title;
-    song.type = type;
-    song.content = content;
-    song.author = author;
+    song.label = label;
+    song.src = src;
+    song.singer = singer;
 
     song.save(callback);
 }

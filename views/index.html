@@ -16,6 +16,7 @@
 
 		<style>
 			
+			
 		</style>
 	</head>
 	
@@ -27,11 +28,21 @@
 			</div>
 			<div id="playerBoxHost"></div>
 		</div>
+		<div class="loading-bar"></div>
 	</body>
 	<script>
 		var Contr = {
 			imgBox:null,
 			playerBox:null,
+			loadingBar:{
+				loading:function(val){
+					if(val){
+						$("body").addClass("app-loading");
+					}else{
+						$("body").removeClass("app-loading");
+					}
+				}
+			}
 		}
 
 		var MainPageFun = {

@@ -7,9 +7,10 @@ var ObjectId = mongoose.Schema.ObjectId;
 var songsSchema = new mongoose.Schema({
     label:{ type: String },
     coverImg:{ type: Array },
+    desImg:{ type: Array },
     src:{ type: String },
     uploader:{ type: ObjectId },
-    singer:{ type: String},
+    singer:{ type: String },
     tag: { type: Array },
     like: { type: Number, default: 0 },
     heard: { type: Number, default:0 },
