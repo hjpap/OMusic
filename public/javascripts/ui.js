@@ -83,6 +83,23 @@ var musicOp = {
         seconds<10 && (seconds = "0" + seconds);
         return minutes + ":" + seconds;
     }
+
+    function createObjectURL(file) {
+        if (window.URL) {
+            return window.URL.createObjectURL(file);
+        } else if (window.webkitURL) {
+            return window.webkit.createObjectURL(file);
+        } else {
+            return null;
+        }
+    }
+    function revokeObjectURL(url) {
+        if (window.URL) {
+            window.URL.revokeObjectURL(url);
+        } else if (window.webkitURL) {
+            window.webkitURL.revokeObjectURL(url);
+        }
+    }
     var MusicBox = function(host,option){
         var self = this;
         self.option = option;
@@ -195,46 +212,7 @@ var musicOp = {
 
                 });
                 /* 拖拽本地歌曲 播放*/
-                function handleFiles(files) {
-                    var sources = "";
-                    var len = files.length;
-                    var url;
-                    for (var i = 0; i < len; i++) {
-                        if(files[i].type != "audio/mp3"){
-                            if(self.loadLocalSongFunc){
-                                self.loadLocalSongFunc("err");
-                            }
-                            return;
-                        }
-                        url = createObjectURL(files[i]);
-                        var newSong = {label:files[i].name,singer:"本地",src:url};
-                        newSong = self.addSong(newSong);
-                        self.currentIndex = (self.songsIndex.length-1);
-                        self.currentObj =  self.songs[self.songsIndex[self.currentIndex]];
-                        self._audioControl.src = self.currentObj.src;
-                        if(self.loadLocalSongFunc){
-                            self.loadLocalSongFunc(newSong);
-                        }
-                        self.play();
-                    }
-                }
-
-                function createObjectURL(file) {
-                    if (window.URL) {
-                        return window.URL.createObjectURL(file);
-                    } else if (window.webkitURL) {
-                        return window.webkit.createObjectURL(file);
-                    } else {
-                        return null;
-                    }
-                }
-                function revokeObjectURL(url) {
-                    if (window.URL) {
-                        window.URL.revokeObjectURL(url);
-                    } else if (window.webkitURL) {
-                        window.webkitURL.revokeObjectURL(url);
-                    }
-                }
+                
                 self._rootDom.bind("dragenter",dragenter = function(e) {
                     e.stopPropagation();
                     e.preventDefault();
@@ -250,7 +228,7 @@ var musicOp = {
                     var dt = e.originalEvent.dataTransfer;
                     var files = dt.files;
 
-                    handleFiles(files);
+                    self.handleFiles(files);
                 });
 
                 /*控制按键*/
@@ -448,6 +426,30 @@ var musicOp = {
             var currentTime = formatTime(toTime);
             self._currentTimeDom.text(currentTime);
             self._audioControl.currentTime = toTime;
+        },
+        handleFiles:function(files) {
+            var self = this;
+            var sources = "";
+            var len = files.length;
+            var url;
+            for (var i = 0; i < len; i++) {
+                if(files[i].type != "audio/mp3"){
+                    if(self.loadLocalSongFunc){
+                        self.loadLocalSongFunc("errs");
+                    }
+                    return;
+                }
+                url = createObjectURL(files[i]);
+                var newSong = {label:files[i].name,singer:"本地",src:url};
+                newSong = self.addSong(newSong);
+                self.currentIndex = (self.songsIndex.length-1);
+                self.currentObj =  self.songs[self.songsIndex[self.currentIndex]];
+                self._audioControl.src = self.currentObj.src;
+                if(self.loadLocalSongFunc){
+                    self.loadLocalSongFunc(newSong);
+                }
+                self.play();
+            }
         },
         initSongs:function(val){
             var self = this;
